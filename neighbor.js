@@ -50,3 +50,5 @@ var rootRoute = require('./routes/root');
 app.use('/', rootRoute);
 var houseRoute = require('./routes/house');
 app.use('/House', houseRoute);
+var editRoute = require('./routes/Editor');
+app.use('/edit', editRoute);

@@ -56,11 +56,6 @@ router.post('/addfiles', upload.array('file'), async function(req, res) {
         House.Files.push(req.files[i].originalname);
     }
     House.save();
-
-
-
-
-
     res.redirect('/House/controlpanel');
 });
 

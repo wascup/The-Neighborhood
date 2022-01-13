@@ -17,7 +17,12 @@
     <main>
         <div class="fileslist">
             <% files.forEach(File => { %>
-            <a class="file"><%= File %></a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
+            <a class="file"><%= File %></a>
+            <% if (File.includes(".html") || File.includes(".css")) { %>
+                <a href="/edit/<%= File %>">Edit</a>
+            <% } %>
+            
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
             <% }) %>
         </div>
         <br>
@@ -33,4 +38,11 @@
         </form>
     </main>
 </body>
+<script>
+    function changetext()
+    {
+        document.getElementById("file").Value == "Adding Files";
+    }
+</script>
+
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editing: <%= filename %> | The neighborhood</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/editor.css">
+
+</head>
+
+<body>
+    <%- include("partials/header") %>
+    <main>
+        <h1 class="tagline">Editing: <%= filename %></h1>
+        <p class="tagline">Edit a document</p>
+        <p class="tagline">This editor is meant to only make small changes.<br>Do not use this to build the website.
+           Use <a href="https://code.visualstudio.com/download" target="_blank">Visual Studio Code</a> instead</p>
+        </p>
+        
+        <hr>
+        <div>
+            <form id="save" class="basearea" method="post" action="/edit/savefile">
+                <textarea spellcheck="false" name="filecontent" id="filecontent" cols="30" rows="10"><%= file %></textarea>
+                <input name="filelocation" id="filelocation" value="<%= filelocation %>" hidden>
+                <input class="submit" type="submit" value="Save">
+            </form>
+            <h1 class="tagline">Live Basic Preview</h1>
+            <iframe class="preview" id="preview"></iframe>
+        </div>
+    </main>
+</body>
+<script>
+    function changepreview() {
+        var filecontent = document.getElementById("filecontent").value;
+        var preview = document.getElementById("preview");
+        preview.srcdoc = filecontent;
+        setTimeout(changepreview, 2000);
+    }
+    changepreview();
+</script>
+
+</html>

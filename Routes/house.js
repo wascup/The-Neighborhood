@@ -3,23 +3,24 @@ var router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
-const Homeowner = require('../models/homeowner');
 
-router.get('/controlpanel', function(req, res) {
+router.get('/controlpanel', async function(req, res) {
+    if(!isuser(req))
+    {
+        res.redirect('/login');
+        return;
+    }
     //read all files from the users home folder using fs and give them as a json
     var dir = `./public/Homes/${req.user.uuid}/`;
     var files = fs.readdirSync(dir);
-    var UsersFiles = [];
-    files.forEach(function(file) {
-        UsersFiles.push(file);
-    });
+    var House = require('../models/House');
+    var user = req.user;
+    var House = await House.findOne({ Owner: user });
+    var UsersFiles = House.Files
     res.render('controlpanel', {Homeowner: req.user,files: UsersFiles });
 });
-router.get('/:Homeowner', async function(req, res) {
-    var homeowner = req.params.Homeowner;
-    var HomeownerObject = await Homeowner.findOne({ username: homeowner });
-    var dir = `./public/Homes/${HomeownerObject.uuid}/`;
-});
+var Homeowner = require('../models/Homeowner');
+
 
 
 //File upload baja
@@ -40,19 +41,79 @@ var upload = multer({
     storage: storage
 });
 
-router.post('/addfiles', upload.array('file'), function(req, res) {
-    console.log(req.files);
+router.post('/addfiles', upload.array('file'), async function(req, res) {
+    var House = require('../models/House');
+    var user = req.user;
+    var House = await House.findOne({ Owner: user });
+    if(House == null)
+    {
+        res.redirect('/');
+        return;
+    }
+    for(var i = 0; i < req.files.length; i++)
+    {
+        House.Files.push(req.files[i].originalname);
+    }
+    House.save();
+
+
+
+
+
     res.redirect('/House/controlpanel');
 });
 
-router.get('/deletefile/:file', function(req, res) {
+router.get('/deletefile/:file', async function(req, res) {
+    if(!isuser(req))
+    {
+        res.redirect('/login');
+        return;
+    }
     var filename = req.params.file;
     fs.unlink(`./public/Homes/${req.user.uuid}/${filename}`, function(err) {
         if (err) {
             console.log(err);
         }
     });
+    var House = require('../models/House');
+    var user = req.user;
+    var House = await House.findOne({ Owner: user });
+    var FileIndex = House.Files.indexOf(filename);
+    if (FileIndex > -1) {
+        House.Files.splice(FileIndex, 1);
+    }
+    House.save();
+
     res.redirect('/House/controlpanel');
 });
+router.get('/:Homeowner', async function(req, res) {
+    var homeowner = req.params.Homeowner;
+    res.redirect('/House/' + homeowner + "/index.html")
+});
 
+router.get('/:Homeowner/:file', async function(req, res) {
+    var homeowner = req.params.Homeowner;
+    var filename = req.params.file;
+    var HomeownerObject = await Homeowner.findOne({ username: homeowner });
+    if(HomeownerObject.uuid == null)
+    {
+        res.redirect('/');
+        return;
+    }
+    var dir = `./public/Homes/${HomeownerObject.uuid}/`;
+    var FileSend = dir + filename;
+    await res.sendFile(path.resolve(FileSend));
+});
+
+function isuser(req)
+{
+    if(req.user)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 module.exports = router;

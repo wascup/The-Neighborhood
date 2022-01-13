@@ -1,6 +1,7 @@
 //make express server and connect to mongoose "Neighborhood" database
 var express = require('express');
 var app = express();
+var port = 3000;
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({
     keys: ['Geo', 'Hood'],
-    secret: 'secret',
+    secret: 'GeoHood',
 }));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,8 +42,8 @@ passport.serializeUser(Homeowner.serializeUser());
 passport.deserializeUser(Homeowner.deserializeUser());
 
 
-app.listen(3000, function () {
-    console.log('listening on port 3000');
+app.listen(port, function () {
+    console.log(`listening on port ${port}`);
 });
 //Routes
 var rootRoute = require('./routes/root');

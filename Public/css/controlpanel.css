@@ -5,7 +5,12 @@
     left: 20%;
     right: 20%;
     overflow: auto;
+    padding: 1em;
     margin: 0;
+    background-color: #f0f0f0;
+    border: black solid 5px;
+    border-radius: 2em;
+    overflow-y: scroll;
 }
 .file {
     width: fit-content;
@@ -21,4 +26,8 @@
 }
 .folder:nth-of-type(odd) {
     background-color: #f0f0f0;
+}
+.deletefile {
+    font-size: 20px;
+    float: right;
 }

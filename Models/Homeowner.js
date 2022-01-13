@@ -7,7 +7,8 @@ var Homeowner = new Schema({
     password: String,
     ProfilePicture: String,
     uuid: String,
-    WebsiteLocalLocation: String,
+    House: { type: Schema.Types.ObjectId, ref: 'House'},
+
 });
 
 Homeowner.plugin(passportLocalMongoose);

@@ -8,6 +8,7 @@
     <title>Edit | The neighborhood</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/controlpanel.css">
+    <link rel="stylesheet" href="/css/form.css">
 
 </head>
 
@@ -16,12 +17,13 @@
     <main>
         <div class="fileslist">
             <% files.forEach(File => { %>
-            <a class="file"><%= File %></a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
+            <a class="file"><%= File %></a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
             <% }) %>
         </div>
-        <form method="post" action="/House/addfiles" enctype="multipart/form-data" target="backgroundworkeriframe">
-            <input type="file" name="file" id="file" multiple>
-            <input type="submit" value="Upload Furnature">
+        <form class="baseform" method="post" action="/House/addfiles" id="AddForm" enctype="multipart/form-data">
+            <input type="file" name="file" style="display: none;" id="file" multiple onchange="submit()">
+            <input class="file" type="button" value="Add Files" onclick="document.getElementById('file').click();"/>
+            <p>For a website to be displayed you need to at least have a index.html page</p>
         </form>
     </main>
 </body>

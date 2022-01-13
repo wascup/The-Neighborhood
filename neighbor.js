@@ -8,24 +8,38 @@ var cookieSession = require('cookie-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
+var flash = require('connect-flash');
+var session = require('express-session')
+const Homeowner = require('./models/Homeowner');
 
 
 
-mongoose.connect('mongodb://localhost/Neighborhood')
+mongoose.connect('mongodb://127.0.0.1/Neighborhood')
     .then(() => console.log('connection successful'))
     .catch((err) => console.error(err));
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(cookieParser());
-app.use(cookieSession({
-    name: 'session',
-    keys: ['geo', 'hood']
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
 }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use(cookieParser());
+app.use(session({
+    keys: ['Geo', 'Hood'],
+    secret: 'secret',
+}));
+app.use(flash());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy(Homeowner.authenticate()));
+passport.serializeUser(Homeowner.serializeUser());
+passport.deserializeUser(Homeowner.deserializeUser());
+
 
 app.listen(3000, function () {
     console.log('listening on port 3000');
@@ -33,3 +47,5 @@ app.listen(3000, function () {
 //Routes
 var rootRoute = require('./routes/root');
 app.use('/', rootRoute);
+var houseRoute = require('./routes/house');
+app.use('/House', houseRoute);

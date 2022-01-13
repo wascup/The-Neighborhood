@@ -1,0 +1,18 @@
+<header>
+    <span class="title">The Neighborhood</span>
+    <nav>
+
+        <div class="headeroption">
+            <a href="/">Home</a> &nbsp;
+            <a href="/about">About</a> &nbsp;
+            <% if (Homeowner == undefined) { %>
+            <a href="/login">Login</a> &nbsp;
+            <a href="/register">Sign up</a> &nbsp;
+            <% } else { %>
+            <a href="/House/Controlpanel">See my furniture</a> &nbsp;
+            <a href="/logout">Logout</a>
+            <% } %>
+            <% console.log(Homeowner) %> 
+        </div>
+    </nav>
+</header>

@@ -13,20 +13,9 @@
 
 <body>
 
-    <header>
-        <span class="title">The Neighborhood</span>
-        <nav>
-
-            <div class="headeroption">
-                <a href="/">Home</a> &nbsp;
-                <a href="/about">About</a> &nbsp;
-                <a href="/login">Login</a> &nbsp;
-                <a href="/register">Sign up</a>
-            </div>
-        </nav>
-    </header>
+    <%- include("partials/header") %>
     <main>
-          <form action="/login" method="post" enctype="multipart/form-data">
+          <form action="/login" method="post">
             <h1 class="tagline">Welcome back to the neighborhood</h1>
             <hr>
             <div class="baseform">

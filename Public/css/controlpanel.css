@@ -1,0 +1,24 @@
+.fileslist {
+    position: fixed;
+    top: 30%;
+    bottom: 20%;
+    left: 20%;
+    right: 20%;
+    overflow: auto;
+    margin: 0;
+}
+.file {
+    width: fit-content;
+    font-size: 20px;
+}
+.file:nth-of-type(odd) {
+    background-color: #f0f0f0;
+}
+.folder {
+    text-shadow: black 0px 0px 1px;
+    width: fit-content;
+    font-size: 20px;
+}
+.folder:nth-of-type(odd) {
+    background-color: #f0f0f0;
+}

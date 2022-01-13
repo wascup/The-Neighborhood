@@ -1,5 +1,7 @@
 # The Neighborhood
- A web service similar to GeoCities
+ A web service similar to GeoCities.
+ Very buggy and constantly crashing, not meant for practical use.
+ made in 15 hours for fun, I am a fan of GeoCities.
  
 # Uploading files
 <img src="https://github.com/wascup/The-Neighborhood/blob/main/GithubMarkdown/ImportFiles.gif" width="400" alt="gif showing an example">

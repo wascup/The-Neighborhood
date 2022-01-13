@@ -19,7 +19,7 @@
         <div class="neighbors">
             <% Homeowners.forEach(profile => { %>
             <div class="homeowner">
-                <img src="<%= profile.ProfilePicture %>" class="profileimg">
+                <img src="/ProfilePictures/<%= profile.uuid %>" class="profileimg">
                 <h2><%= profile.username %></h2>
                 <a class="home" href="/House/<%= profile.username %>">View my house</a>
             </div>

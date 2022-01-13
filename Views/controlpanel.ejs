@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit | The neighborhood</title>
+    <title><%= Homeowner.username %>'s Control panel | The neighborhood</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/controlpanel.css">
     <link rel="stylesheet" href="/css/form.css">
@@ -20,10 +20,16 @@
             <a class="file"><%= File %></a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
             <% }) %>
         </div>
-        <form class="baseform" method="post" action="/House/addfiles" id="AddForm" enctype="multipart/form-data">
+        <br>
+        <form class="baseform" method="post" action="/House/addfiles" enctype="multipart/form-data">
             <input type="file" name="file" style="display: none;" id="file" multiple onchange="submit()">
             <input class="file" type="button" value="Add Files" onclick="document.getElementById('file').click();"/>
             <p>For a website to be displayed you need to at least have a index.html page</p>
+        </form>
+        <br>
+        <form class="baseform" method="post" action="/ChangeProfilePicture" enctype="multipart/form-data">
+            <input type="file" name="ProfileFile" style="display: none;" id="ProfileFile" multiple onchange="submit()">
+            <input class="file" type="button" value="Change Profile Picture" onclick="document.getElementById('ProfileFile').click();"/>
         </form>
     </main>
 </body>

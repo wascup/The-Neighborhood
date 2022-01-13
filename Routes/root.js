@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var multer = require('multer');
 const Homeowner = require('../models/Homeowner');
 var fs = require('fs');
 const {
@@ -40,6 +41,35 @@ router.get('/street', async (req, res) => {
   })
 })
 
+
+
+
+//File upload baja
+var upload = multer({
+  storage: storage
+});
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, './public/ProfilePictures/');
+  },
+  filename: function(req, file, cb) {
+      cb(null, req.user.uuid);
+  }
+});
+
+var upload = multer({
+  storage: storage
+});
+
+router.post('/ChangeProfilePicture',upload.single('ProfileFile'), async (req, res) => {
+  if (req.user == null) {
+  res.redirect('/login');
+  return;
+  }
+
+  res.redirect('/House/controlpanel');
+})
 
 
 //make login post and make a session

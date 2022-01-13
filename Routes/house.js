@@ -10,9 +10,6 @@ router.get('/controlpanel', async function(req, res) {
         res.redirect('/login');
         return;
     }
-    //read all files from the users home folder using fs and give them as a json
-    var dir = `./public/Homes/${req.user.uuid}/`;
-    var files = fs.readdirSync(dir);
     var House = require('../models/House');
     var user = req.user;
     var House = await House.findOne({ Owner: user });
@@ -30,6 +27,10 @@ var upload = multer({
 
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
+        if(!req.user)
+        {
+            return;
+        }
         cb(null, './public/Homes/' + req.user.uuid + '/');
     },
     filename: function(req, file, cb) {
@@ -95,7 +96,7 @@ router.get('/:Homeowner/:file', async function(req, res) {
     var homeowner = req.params.Homeowner;
     var filename = req.params.file;
     var HomeownerObject = await Homeowner.findOne({ username: homeowner });
-    if(HomeownerObject.uuid == null)
+    if(!HomeownerObject.uuid)
     {
         res.redirect('/');
         return;

@@ -5,7 +5,6 @@ var mongoose = require('mongoose'),
 var Homeowner = new Schema({
     username: String,
     password: String,
-    ProfilePicture: String,
     uuid: String,
     House: { type: Schema.Types.ObjectId, ref: 'House'},
 

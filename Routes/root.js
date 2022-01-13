@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const Homeowner = require('../models/Homeowner');
+var fs = require('fs');
 const {
   v4: uuidv4
 } = require('uuid');
@@ -45,10 +46,11 @@ router.post('/register', (req, res) => {
   }), req.body.password, function (err) {
     if (err) {
       console.log('House purchase failed!', err);
-      return next(err);
     }
 
     console.log('New house bought!');
+    //make a new folder for the new house
+    fs.mkdirSync(`./public/Homes/${newuuid}/`);
 
     res.redirect('/');
   });

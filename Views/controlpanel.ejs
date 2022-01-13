@@ -15,14 +15,14 @@
     <%- include("partials/header") %>
     <main>
         <div class="fileslist">
-            <!-- EXAMPLE TEXT -->
-            <a class="folder">Folder: New Folder</a><br>
-            <a class="file">File: index.html</a><br>
-            <a class="file">File: script.js</a><br>
-            <a class="file">File: style.css</a><br>
-            <a class="file">File: video.webm</a><br>
+            <% files.forEach(File => { %>
+            <a class="file"><%= File %></a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
+            <% }) %>
         </div>
+        <form method="post" action="/House/addfiles" enctype="multipart/form-data" target="backgroundworkeriframe">
+            <input type="file" name="file" id="file" multiple>
+            <input type="submit" value="Upload Furnature">
+        </form>
     </main>
 </body>
-
 </html>

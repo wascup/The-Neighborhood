@@ -15,34 +15,61 @@
 <body>
     <%- include("partials/header") %>
     <main>
-        <div class="fileslist">
+        <div class="fileslist" id="fileslist">
             <% files.forEach(File => { %>
             <a class="file"><%= File %></a>
             <% if (File.includes(".html") || File.includes(".css")) { %>
-                <a href="/edit/<%= File %>">Edit</a>
+            <a href="/edit/<%= File %>">Edit</a>
             <% } %>
-            
+
             &nbsp;&nbsp;&nbsp;&nbsp;<a class="deletefile" href="/House/deletefile/<%= File %>">X</a><br>
             <% }) %>
         </div>
         <br>
         <form class="baseform" method="post" action="/House/addfiles" enctype="multipart/form-data">
             <input type="file" name="file" style="display: none;" id="file" multiple onchange="submit()">
-            <input class="file" type="button" value="Add Files" onclick="document.getElementById('file').click();"/>
+            <input class="file" type="button" value="Add Files" onclick="document.getElementById('file').click();" />
             <p>For a website to be displayed you need to at least have a index.html page</p>
         </form>
         <br>
         <form class="baseform" method="post" action="/ChangeProfilePicture" enctype="multipart/form-data">
             <input type="file" name="ProfileFile" style="display: none;" id="ProfileFile" multiple onchange="submit()">
-            <input class="file" type="button" value="Change Profile Picture" onclick="document.getElementById('ProfileFile').click();"/>
+            <input class="file" type="button" value="Change Profile Picture"
+                onclick="document.getElementById('ProfileFile').click();" />
         </form>
     </main>
 </body>
 <script>
-    function changetext()
-    {
-        document.getElementById("file").Value == "Adding Files";
-    }
+    var fileInput = document.getElementById("file");
+    var dragdrop = document.getElementById("fileslist");
+    //allow drag and dropping of files and submit the form
+    
+    dragdrop.addEventListener("dragover", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+    });
+    dragdrop.addEventListener("drop", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var files = e.dataTransfer.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var formData = new FormData();
+            formData.append("file", file);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/House/addfiles", true);
+            xhr.send(formData);
+        }
+        setTimeout(function() {
+            location.reload();
+            }, 500);
+    });
+    dragdrop.addEventListener("dragend", function(e) {
+        e.preventDefault();
+    });
+
+
 </script>
 
 </html>
